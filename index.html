@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Site — Alan1411</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <nav class="nav">
+      <a href="#" class="logo">TestSite</a>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">☀️</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <p class="badge">Portfolio test site</p>
+      <h1>Hello, World!</h1>
+      <p class="subtitle">
+        A simple test website to verify your GitHub setup is working.
+      </p>
+      <div class="hero-actions">
+        <button id="cta-btn" class="btn btn-primary">Click me</button>
+        <a href="https://github.com/Alan1411" class="btn btn-secondary" target="_blank" rel="noopener">View GitHub</a>
+      </div>
+      <p id="click-count" class="click-count">Clicks: 0</p>
+    </section>
+
+    <section id="about" class="cards">
+      <article class="card">
+        <span class="card-icon">🚀</span>
+        <h2>Fast</h2>
+        <p>Plain HTML, CSS, and JavaScript — no build step required.</p>
+      </article>
+      <article class="card">
+        <span class="card-icon">🎨</span>
+        <h2>Styled</h2>
+        <p>Clean layout with light and dark mode support.</p>
+      </article>
+      <article class="card">
+        <span class="card-icon">📦</span>
+        <h2>Ready to push</h2>
+        <p>Commit and push this to your Portfolio repo on GitHub.</p>
+      </article>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2>Get in touch</h2>
+      <form id="contact-form" class="contact-form">
+        <label>
+          Name
+          <input type="text" name="name" placeholder="Your name" required>
+        </label>
+        <label>
+          Message
+          <textarea name="message" rows="4" placeholder="Say hello..." required></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary">Send (demo)</button>
+      </form>
+      <p id="form-status" class="form-status" hidden></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Built by <strong>Alan1411</strong> · Test website · <span id="year"></span></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
