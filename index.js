@@ -14,6 +14,11 @@ const supabase = createClient(
 app.use(express.json());
 app.use(express.static('public'));
 
+// ✅ Route für die Hauptseite
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
 // API: Alle Projekte holen
 app.get('/api/projects', async (req, res) => {
   try {
