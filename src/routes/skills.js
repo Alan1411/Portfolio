@@ -3,8 +3,17 @@ const supabase = require("../lib/supabase");
 
 const router = express.Router();
 
+function requireDb(res) {
+  if (!supabase) {
+    res.status(503).json({ error: "Database not configured" });
+    return false;
+  }
+  return true;
+}
+
 // GET /api/skills
 router.get("/", async (req, res) => {
+  if (!requireDb(res)) return;
   try {
     const { data, error } = await supabase
       .from("skills")
@@ -20,6 +29,7 @@ router.get("/", async (req, res) => {
 
 // GET /api/skills/:id
 router.get("/:id", async (req, res) => {
+  if (!requireDb(res)) return;
   try {
     const { data, error } = await supabase
       .from("skills")
@@ -37,6 +47,7 @@ router.get("/:id", async (req, res) => {
 
 // POST /api/skills
 router.post("/", async (req, res) => {
+  if (!requireDb(res)) return;
   try {
     const { name, category, icon, proficiency, sort_order } = req.body;
     if (!name) {
@@ -58,6 +69,7 @@ router.post("/", async (req, res) => {
 
 // PUT /api/skills/:id
 router.put("/:id", async (req, res) => {
+  if (!requireDb(res)) return;
   try {
     const { data, error } = await supabase
       .from("skills")
@@ -75,6 +87,7 @@ router.put("/:id", async (req, res) => {
 
 // DELETE /api/skills/:id
 router.delete("/:id", async (req, res) => {
+  if (!requireDb(res)) return;
   try {
     const { error } = await supabase
       .from("skills")

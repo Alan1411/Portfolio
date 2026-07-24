@@ -11,8 +11,17 @@ function slugify(text) {
     .replace(/^-+|-+$/g, "");
 }
 
+function requireDb(res) {
+  if (!supabase) {
+    res.status(503).json({ error: "Database not configured" });
+    return false;
+  }
+  return true;
+}
+
 // GET /api/blog
 router.get("/", async (req, res) => {
+  if (!requireDb(res)) return;
   try {
     const { data, error } = await supabase
       .from("blog_posts")
@@ -29,6 +38,7 @@ router.get("/", async (req, res) => {
 
 // GET /api/blog/:slug
 router.get("/:slug", async (req, res) => {
+  if (!requireDb(res)) return;
   try {
     const { data, error } = await supabase
       .from("blog_posts")
@@ -47,6 +57,7 @@ router.get("/:slug", async (req, res) => {
 
 // POST /api/blog
 router.post("/", async (req, res) => {
+  if (!requireDb(res)) return;
   try {
     const { title, content, excerpt, published } = req.body;
     if (!title || !content) {
@@ -70,6 +81,7 @@ router.post("/", async (req, res) => {
 
 // PUT /api/blog/:id
 router.put("/:id", async (req, res) => {
+  if (!requireDb(res)) return;
   try {
     const updates = req.body;
     if (updates.title) {
@@ -93,6 +105,7 @@ router.put("/:id", async (req, res) => {
 
 // DELETE /api/blog/:id
 router.delete("/:id", async (req, res) => {
+  if (!requireDb(res)) return;
   try {
     const { error } = await supabase
       .from("blog_posts")

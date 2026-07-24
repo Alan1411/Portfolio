@@ -3,8 +3,17 @@ const supabase = require("../lib/supabase");
 
 const router = express.Router();
 
+function requireDb(res) {
+  if (!supabase) {
+    res.status(503).json({ error: "Database not configured" });
+    return false;
+  }
+  return true;
+}
+
 // GET /api/projects
 router.get("/", async (req, res) => {
+  if (!requireDb(res)) return;
   try {
     const { data, error } = await supabase
       .from("projects")
@@ -20,6 +29,7 @@ router.get("/", async (req, res) => {
 
 // GET /api/projects/:id
 router.get("/:id", async (req, res) => {
+  if (!requireDb(res)) return;
   try {
     const { data, error } = await supabase
       .from("projects")
@@ -37,6 +47,7 @@ router.get("/:id", async (req, res) => {
 
 // POST /api/projects
 router.post("/", async (req, res) => {
+  if (!requireDb(res)) return;
   try {
     const { title, description, tech_stack, repo_url, demo_url, image_url, featured, sort_order } = req.body;
     if (!title || !description) {
@@ -58,6 +69,7 @@ router.post("/", async (req, res) => {
 
 // PUT /api/projects/:id
 router.put("/:id", async (req, res) => {
+  if (!requireDb(res)) return;
   try {
     const updates = req.body;
     updates.updated_at = new Date().toISOString();
@@ -78,6 +90,7 @@ router.put("/:id", async (req, res) => {
 
 // DELETE /api/projects/:id
 router.delete("/:id", async (req, res) => {
+  if (!requireDb(res)) return;
   try {
     const { error } = await supabase
       .from("projects")

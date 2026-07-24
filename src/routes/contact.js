@@ -15,12 +15,14 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    // Save to Supabase
-    const { error: dbError } = await supabase
-      .from("messages")
-      .insert({ name, message });
+    // Save to Supabase (if configured)
+    if (supabase) {
+      const { error: dbError } = await supabase
+        .from("messages")
+        .insert({ name, message });
 
-    if (dbError) throw dbError;
+      if (dbError) throw dbError;
+    }
 
     // Send email via AgentMail
     if (AGENTMAIL_API_KEY) {
@@ -48,7 +50,6 @@ router.post("/", async (req, res) => {
         });
       } catch (emailErr) {
         console.error("AgentMail error:", emailErr.message);
-        // Don't fail the request if email fails
       }
     }
 
