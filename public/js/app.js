@@ -18,33 +18,22 @@ themeToggle.addEventListener("click", () => {
   themeToggle.textContent = next === "dark" ? "\u{1F319}" : "\u2600\uFE0F";
 });
 
-let supabase = null;
+let db = null;
 
 try {
-  if (window.supabase && window.supabase.createClient) {
-    supabase = window.supabase.createClient(
-      window.SUPABASE_URL,
-      window.SUPABASE_ANON_KEY
-    );
-  } else if (window.createClient) {
-    supabase = window.createClient(
-      window.SUPABASE_URL,
-      window.SUPABASE_ANON_KEY
-    );
-  } else {
-    console.error("Supabase client not found on window:", Object.keys(window).filter(k => k.toLowerCase().includes("supabase")));
-  }
+  const client = window.supabase || window;
+  db = client.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
 } catch (err) {
   console.error("Failed to create Supabase client:", err);
 }
 
 async function loadMessages() {
-  if (!supabase) {
+  if (!db) {
     messagesList.innerHTML = '<p class="muted">Supabase not connected.</p>';
     return;
   }
   try {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from("messages")
       .select("*")
       .order("created_at", { ascending: false })
@@ -78,14 +67,14 @@ contactForm.addEventListener("submit", async (event) => {
   const name = formData.get("name");
   const message = formData.get("message");
 
-  if (!supabase) {
+  if (!db) {
     formStatus.hidden = false;
     formStatus.textContent = "Supabase not connected. Check console.";
     return;
   }
 
   try {
-    const { error } = await supabase
+    const { error } = await db
       .from("messages")
       .insert({ name, message });
 
