@@ -288,6 +288,113 @@ main {
   font-size: 0.9rem;
 }
 
+/* Projects, Skills, Blog sections */
+.projects-section,
+.skills-section,
+.blog-section {
+  margin-bottom: 4rem;
+}
+
+.projects-section h2,
+.skills-section h2,
+.blog-section h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+}
+
+.tech-tag {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.card-links {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.btn-small {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  border-radius: 0.5rem;
+}
+
+/* Skills */
+.skills-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.skill-group {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.skill-category {
+  text-transform: capitalize;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  color: var(--accent);
+}
+
+.skill-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skill-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.skill-level {
+  color: var(--accent);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+}
+
+/* Blog */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.blog-card {
+  cursor: default;
+}
+
+.blog-card h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.blog-card p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
 @media (max-width: 600px) {
   .nav-links {
     display: none;

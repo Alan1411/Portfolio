@@ -6,3 +6,8 @@ config.js
 .DS_Store
 Thumbs.db
 *.log
+
+.vercel
+.env*
+.vscode/
+SESSION_SUMMARY.txt
