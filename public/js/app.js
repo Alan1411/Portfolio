@@ -1,6 +1,10 @@
+const { createClient } = window.supabase;
+const supabase = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+
 const themeToggle = document.getElementById("theme-toggle");
 const contactForm = document.getElementById("contact-form");
 const formStatus = document.getElementById("form-status");
+const messagesList = document.getElementById("messages-list");
 const year = document.getElementById("year");
 
 const savedTheme = localStorage.getItem("theme") || "light";
@@ -17,28 +21,51 @@ themeToggle.addEventListener("click", () => {
   themeToggle.textContent = next === "dark" ? "\u{1F319}" : "\u2600\uFE0F";
 });
 
+async function loadMessages() {
+  const { data, error } = await supabase
+    .from("messages")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    messagesList.innerHTML = `<p class="muted">Could not load messages: ${error.message}</p>`;
+    return;
+  }
+
+  if (!data.length) {
+    messagesList.innerHTML = `<p class="muted">No messages yet. Be the first!</p>`;
+    return;
+  }
+
+  messagesList.innerHTML = data
+    .map(
+      (m) => `
+      <div class="message-card">
+        <strong>${m.name}</strong>
+        <p>${m.message}</p>
+        <small>${new Date(m.created_at).toLocaleString()}</small>
+      </div>`
+    )
+    .join("");
+}
+
 contactForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const formData = new FormData(contactForm);
   const name = formData.get("name");
   const message = formData.get("message");
 
-  try {
-    const { createClient } = window.supabase;
-    const supabase = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+  const { error } = await supabase.from("messages").insert({ name, message });
 
-    const { error } = await supabase.from("messages").insert({ name, message });
-
-    if (error) throw error;
-
-    formStatus.hidden = false;
+  formStatus.hidden = false;
+  if (error) {
+    formStatus.textContent = `Error: ${error.message}`;
+  } else {
     formStatus.textContent = `Thanks, ${name}! Your message was sent.`;
     contactForm.reset();
-  } catch (err) {
-    formStatus.hidden = false;
-    formStatus.textContent = `Thanks, ${name}! (Demo mode — no Supabase table yet.)`;
-    contactForm.reset();
+    loadMessages();
   }
 });
 
 year.textContent = new Date().getFullYear();
+loadMessages();
