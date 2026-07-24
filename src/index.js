@@ -18,6 +18,16 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/api/health", (req, res) => {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_ANON_KEY;
+  res.json({
+    urlSet: !!url,
+    keySet: !!key,
+    keyPrefix: key ? key.substring(0, 14) + "..." : "missing",
+  });
+});
+
 if (process.env.VERCEL) {
   module.exports = app;
 } else {

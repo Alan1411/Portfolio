@@ -22,31 +22,33 @@ themeToggle.addEventListener("click", () => {
 });
 
 async function loadMessages() {
-  const { data, error } = await supabase
-    .from("messages")
-    .select("*")
-    .order("created_at", { ascending: false });
+  try {
+    const { data, error } = await supabase
+      .from("messages")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(20);
 
-  if (error) {
-    messagesList.innerHTML = `<p class="muted">Could not load messages: ${error.message}</p>`;
-    return;
-  }
+    if (error) throw error;
 
-  if (!data.length) {
-    messagesList.innerHTML = `<p class="muted">No messages yet. Be the first!</p>`;
-    return;
-  }
+    if (!data || !data.length) {
+      messagesList.innerHTML = `<p class="muted">No messages yet. Be the first!</p>`;
+      return;
+    }
 
-  messagesList.innerHTML = data
-    .map(
-      (m) => `
+    messagesList.innerHTML = data
+      .map(
+        (m) => `
       <div class="message-card">
         <strong>${m.name}</strong>
         <p>${m.message}</p>
         <small>${new Date(m.created_at).toLocaleString()}</small>
       </div>`
-    )
-    .join("");
+      )
+      .join("");
+  } catch (err) {
+    messagesList.innerHTML = `<p class="muted">Could not load messages: ${err.message}</p>`;
+  }
 }
 
 contactForm.addEventListener("submit", async (event) => {
@@ -55,15 +57,20 @@ contactForm.addEventListener("submit", async (event) => {
   const name = formData.get("name");
   const message = formData.get("message");
 
-  const { error } = await supabase.from("messages").insert({ name, message });
+  try {
+    const { error } = await supabase
+      .from("messages")
+      .insert({ name, message });
 
-  formStatus.hidden = false;
-  if (error) {
-    formStatus.textContent = `Error: ${error.message}`;
-  } else {
+    if (error) throw error;
+
+    formStatus.hidden = false;
     formStatus.textContent = `Thanks, ${name}! Your message was sent.`;
     contactForm.reset();
     loadMessages();
+  } catch (err) {
+    formStatus.hidden = false;
+    formStatus.textContent = `Error: ${err.message}`;
   }
 });
 
