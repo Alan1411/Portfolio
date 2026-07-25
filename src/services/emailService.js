@@ -46,13 +46,19 @@ async function sendVerificationCode(email, code) {
 
   const text = `Dein Verifizierungscode:\n\n${code}\n\nDer Code ist 15 Minuten gültig.`;
 
-  await transport.sendMail({
-    from: `"Alan1411 Portfolio" <${process.env.ZOHO_SMTP_USER}>`,
-    to: email,
-    subject: "Your verification code",
-    text,
-    html,
-  });
+  try {
+    const info = await transport.sendMail({
+      from: `"Alan1411 Portfolio" <${process.env.ZOHO_SMTP_USER}>`,
+      to: email,
+      subject: "Your verification code",
+      text,
+      html,
+    });
+    console.log("[EMAIL] sent:", info.messageId);
+  } catch (err) {
+    console.error("[EMAIL] send failed:", err.message, err.code, err.response);
+    throw err;
+  }
 }
 
 module.exports = { sendVerificationCode };

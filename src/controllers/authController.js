@@ -64,6 +64,7 @@ async function registerUser({ email, password, fullName }) {
   try {
     await sendVerificationCode(user.email, verificationCode);
   } catch (emailErr) {
+    console.error("[REGISTER] email failed:", emailErr.message, emailErr.code);
     // Roll back the insert so the user can retry registration cleanly
     // instead of being stuck on "account already exists" with no code.
     await supabase.from("users").delete().eq("id", user.id);
