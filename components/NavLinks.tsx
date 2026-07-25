@@ -31,11 +31,13 @@ export function NavLinks({ isAdmin, user }: { isAdmin?: boolean; user?: { email:
           </li>
         ))}
       </ul>
-      {user && (
+      {user ? (
         <div className="nav-user">
           <span className="nav-user-name">{user.full_name || user.email}</span>
           <LogoutButton className="nav-logout-btn" />
         </div>
+      ) : (
+        <Link href="/login" className="nav-login-btn">Log In</Link>
       )}
     </>
   );

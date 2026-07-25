@@ -110,6 +110,23 @@ a {
   color: #fff;
 }
 
+.nav-login-btn {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  margin-left: 0.5rem;
+}
+
+.nav-login-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
 .theme-toggle {
   border: 1px solid var(--border);
   background: var(--surface);
