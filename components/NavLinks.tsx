@@ -12,12 +12,13 @@ const links = [
   { href: "/contact", label: "Contact" },
 ];
 
-export function NavLinks() {
+export function NavLinks({ isAdmin }: { isAdmin?: boolean }) {
   const pathname = usePathname();
+  const allLinks = isAdmin ? [...links, { href: "/admin", label: "Admin" }] : links;
 
   return (
     <ul className="nav-links">
-      {links.map((link) => (
+      {allLinks.map((link) => (
         <li key={link.href}>
           <Link
             href={link.href}

@@ -3,19 +3,29 @@ import { createClient } from "@supabase/supabase-js";
 import { requireAdmin } from "@/lib/supabase/admin-guard";
 
 function getSupabase() {
-  return createClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_SECRET_KEY!
-  );
+  return createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
 }
 
-export async function GET() {
+export async function PUT(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const guard = await requireAdmin();
+  if (!guard.ok) {
+    return NextResponse.json({ error: guard.error }, { status: guard.status });
+  }
+
   try {
+    const { id } = await params;
+    const updates = await request.json();
+
     const supabase = getSupabase();
     const { data, error } = await supabase
       .from("skills")
-      .select("*")
-      .order("sort_order", { ascending: true });
+      .update(updates)
+      .eq("id", id)
+      .select()
+      .single();
 
     if (error) throw error;
     return NextResponse.json(data);
@@ -24,32 +34,22 @@ export async function GET() {
   }
 }
 
-export async function POST(request: Request) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   const guard = await requireAdmin();
   if (!guard.ok) {
     return NextResponse.json({ error: guard.error }, { status: guard.status });
   }
 
   try {
-    const body = await request.json();
-    const { name, category, icon, proficiency, sort_order } = body;
-
-    if (!name) {
-      return NextResponse.json(
-        { error: "Name is required" },
-        { status: 400 }
-      );
-    }
-
+    const { id } = await params;
     const supabase = getSupabase();
-    const { data, error } = await supabase
-      .from("skills")
-      .insert({ name, category, icon, proficiency, sort_order })
-      .select()
-      .single();
+    const { error } = await supabase.from("skills").delete().eq("id", id);
 
     if (error) throw error;
-    return NextResponse.json(data, { status: 201 });
+    return NextResponse.json({ deleted: true });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
