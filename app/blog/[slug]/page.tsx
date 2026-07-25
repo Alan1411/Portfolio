@@ -19,7 +19,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   try {
     const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_URL!,
       process.env.SUPABASE_SECRET_KEY!
     );
     const { data } = await supabase
@@ -47,7 +47,7 @@ export default async function BlogPost({
 }) {
   try {
     const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_URL!,
       process.env.SUPABASE_SECRET_KEY!
     );
     const { data: post } = await supabase

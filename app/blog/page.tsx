@@ -22,7 +22,7 @@ export default async function Blog() {
 
   try {
     const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_URL!,
       process.env.SUPABASE_SECRET_KEY!
     );
     const { data } = await supabase
