@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { createClient } from "@supabase/supabase-js";
+import { getCachedBlogPosts } from "@/lib/cache";
 
 export const metadata: Metadata = {
   title: "Blog — Alan1411",
@@ -12,26 +12,17 @@ interface Post {
   title: string;
   slug: string;
   excerpt: string | null;
+  cover_image_url: string | null;
   created_at: string;
 }
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600; // 1 hour — refreshed instantly on admin changes via revalidateTag
 
 export default async function Blog() {
   let posts: Post[] = [];
 
   try {
-    const supabase = createClient(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_SECRET_KEY!
-    );
-    const { data } = await supabase
-      .from("blog_posts")
-      .select("id, title, slug, excerpt, created_at")
-      .eq("published", true)
-      .order("created_at", { ascending: false });
-
-    posts = data || [];
+    posts = await getCachedBlogPosts();
   } catch {
     // API not available at build time
   }
@@ -52,6 +43,13 @@ export default async function Blog() {
             posts.map((p) => (
               <Link key={p.id} href={`/blog/${p.slug}`}>
                 <article className="card blog-card">
+                  {p.cover_image_url && (
+                    <img
+                      src={p.cover_image_url}
+                      alt={p.title}
+                      style={{ width: "100%", borderRadius: "0.5rem", marginBottom: "0.75rem", aspectRatio: "16/9", objectFit: "cover" }}
+                    />
+                  )}
                   <h2>{p.title}</h2>
                   {p.excerpt && <p>{p.excerpt}</p>}
                   <small className="muted">

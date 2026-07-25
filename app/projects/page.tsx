@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { createClient } from "@supabase/supabase-js";
+import { getCachedProjects } from "@/lib/cache";
 
 export const metadata: Metadata = {
   title: "Projects — Alan1411",
@@ -18,22 +18,13 @@ interface Project {
   sort_order: number;
 }
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600; // 1 hour — refreshed instantly on admin changes via revalidateTag
 
 export default async function Projects() {
   let projects: Project[] = [];
 
   try {
-    const supabase = createClient(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_SECRET_KEY!
-    );
-    const { data } = await supabase
-      .from("projects")
-      .select("*")
-      .order("sort_order", { ascending: true });
-
-    projects = data || [];
+    projects = await getCachedProjects();
   } catch {
     // API not available at build time
   }

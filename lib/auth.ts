@@ -6,6 +6,7 @@ export interface SessionUser {
   id: string;
   email: string;
   role: string;
+  full_name?: string | null;
 }
 
 export async function getCurrentUser(): Promise<SessionUser | null> {
@@ -20,6 +21,7 @@ export async function getCurrentUser(): Promise<SessionUser | null> {
     id: payload.sub as string,
     email: payload.email as string,
     role: payload.role as string,
+    full_name: (payload.full_name as string) || null,
   };
 }
 

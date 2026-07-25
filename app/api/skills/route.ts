@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdmin } from "@/lib/auth";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 function getSupabase() {
   return createClient(
@@ -49,6 +50,8 @@ export async function POST(request: Request) {
       .single();
 
     if (error) throw error;
+    revalidateTag("skills", { expire: 0 });
+    revalidatePath("/skills");
     return NextResponse.json(data, { status: 201 });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { createClient } from "@supabase/supabase-js";
+import { getCachedSkills } from "@/lib/cache";
 
 export const metadata: Metadata = {
   title: "Skills — Alan1411",
@@ -15,22 +15,13 @@ interface Skill {
   sort_order: number;
 }
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600; // 1 hour — refreshed instantly on admin changes via revalidateTag
 
 export default async function Skills() {
   let skills: Skill[] = [];
 
   try {
-    const supabase = createClient(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_SECRET_KEY!
-    );
-    const { data } = await supabase
-      .from("skills")
-      .select("*")
-      .order("sort_order", { ascending: true });
-
-    skills = data || [];
+    skills = await getCachedSkills();
   } catch {
     // API not available at build time
   }

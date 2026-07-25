@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdmin } from "@/lib/auth";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 function getSupabase() {
   return createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
@@ -65,6 +66,9 @@ export async function PUT(
       .single();
 
     if (error) throw error;
+    revalidateTag("blog", { expire: 0 });
+    revalidatePath("/blog");
+    if (data?.slug) revalidatePath(`/blog/${data.slug}`);
     return NextResponse.json(data);
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
@@ -83,9 +87,18 @@ export async function DELETE(
   try {
     const { id } = await params;
     const supabase = getSupabase();
+    const { data: existing } = await supabase
+      .from("blog_posts")
+      .select("slug")
+      .eq("id", id)
+      .single();
+
     const { error } = await supabase.from("blog_posts").delete().eq("id", id);
 
     if (error) throw error;
+    revalidateTag("blog", { expire: 0 });
+    revalidatePath("/blog");
+    if (existing?.slug) revalidatePath(`/blog/${existing.slug}`);
     return NextResponse.json({ deleted: true });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });

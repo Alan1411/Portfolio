@@ -14,7 +14,7 @@ function getSecretKey() {
  * Edge runtimes (jose uses Web Crypto, not Node's `crypto` module).
  */
 async function createSessionToken(user) {
-  return new SignJWT({ email: user.email, role: user.role })
+  return new SignJWT({ email: user.email, role: user.role, full_name: user.full_name || null })
     .setProtectedHeader({ alg: "HS256" })
     .setSubject(user.id)
     .setIssuedAt()

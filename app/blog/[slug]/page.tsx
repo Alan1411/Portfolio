@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { createClient } from "@supabase/supabase-js";
+import { getCachedBlogPost } from "@/lib/cache";
 import { notFound } from "next/navigation";
+
+export const revalidate = 3600; // 1 hour — refreshed instantly on admin changes via revalidateTag
 
 interface Post {
   id: number;
   title: string;
   slug: string;
   content: string;
+  cover_image_url: string | null;
   created_at: string;
   updated_at: string | null;
 }
@@ -18,16 +21,7 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   try {
-    const supabase = createClient(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_SECRET_KEY!
-    );
-    const { data } = await supabase
-      .from("blog_posts")
-      .select("title, excerpt")
-      .eq("slug", params.slug)
-      .eq("published", true)
-      .single();
+    const data = await getCachedBlogPost(params.slug);
 
     if (!data) return { title: "Post Not Found" };
 
@@ -46,16 +40,7 @@ export default async function BlogPost({
   params: { slug: string };
 }) {
   try {
-    const supabase = createClient(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_SECRET_KEY!
-    );
-    const { data: post } = await supabase
-      .from("blog_posts")
-      .select("*")
-      .eq("slug", params.slug)
-      .eq("published", true)
-      .single();
+    const post = await getCachedBlogPost(params.slug);
 
     if (!post) notFound();
 
@@ -70,6 +55,13 @@ export default async function BlogPost({
           {post.updated_at &&
             ` (updated ${new Date(post.updated_at).toLocaleDateString()})`}
         </p>
+        {post.cover_image_url && (
+          <img
+            src={post.cover_image_url}
+            alt={post.title}
+            style={{ width: "100%", borderRadius: "0.75rem", margin: "1rem 0" }}
+          />
+        )}
         <div
           className="content"
           dangerouslySetInnerHTML={{ __html: post.content }}

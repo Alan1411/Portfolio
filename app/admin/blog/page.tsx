@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { RichTextEditor } from "@/components/RichTextEditor";
+import { ImageUpload } from "@/components/ImageUpload";
 
 interface Post {
   id: string;
@@ -8,6 +10,7 @@ interface Post {
   slug: string;
   content: string;
   excerpt: string | null;
+  cover_image_url: string | null;
   published: boolean;
   created_at: string;
 }
@@ -16,6 +19,7 @@ const empty = {
   title: "",
   content: "",
   excerpt: "",
+  cover_image_url: "",
   published: false,
 };
 
@@ -69,6 +73,7 @@ export default function AdminBlog() {
       title: p.title,
       content: p.content,
       excerpt: p.excerpt || "",
+      cover_image_url: p.cover_image_url || "",
       published: p.published,
     });
   };
@@ -100,15 +105,17 @@ export default function AdminBlog() {
               rows={2}
             />
           </label>
-          <label>
-            Content
-            <textarea
-              value={form.content}
-              onChange={(e) => setForm({ ...form, content: e.target.value })}
-              rows={8}
-              required
-            />
-          </label>
+          <ImageUpload
+            label="Cover Image"
+            value={form.cover_image_url}
+            onChange={(url) => setForm({ ...form, cover_image_url: url })}
+            folder="blog"
+          />
+          <RichTextEditor
+            label="Content"
+            value={form.content}
+            onChange={(html) => setForm({ ...form, content: html })}
+          />
           <label style={{ flexDirection: "row", alignItems: "center", display: "flex", gap: "0.5rem" }}>
             <input
               type="checkbox"

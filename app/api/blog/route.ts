@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdmin } from "@/lib/auth";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 function getSupabase() {
   return createClient(
@@ -41,7 +42,7 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { title, content, excerpt, published } = body;
+    const { title, content, excerpt, cover_image_url, published } = body;
 
     if (!title || !content) {
       return NextResponse.json(
@@ -55,11 +56,13 @@ export async function POST(request: Request) {
 
     const { data, error } = await supabase
       .from("blog_posts")
-      .insert({ title, slug, content, excerpt, published })
+      .insert({ title, slug, content, excerpt, cover_image_url, published })
       .select()
       .single();
 
     if (error) throw error;
+    revalidateTag("blog", { expire: 0 });
+    revalidatePath("/blog");
     return NextResponse.json(data, { status: 201 });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });

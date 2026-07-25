@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ImageUpload } from "@/components/ImageUpload";
 
 interface Project {
   id: string;
@@ -145,13 +146,12 @@ export default function AdminProjects() {
               onChange={(e) => setForm({ ...form, demo_url: e.target.value })}
             />
           </label>
-          <label>
-            Image URL
-            <input
-              value={form.image_url}
-              onChange={(e) => setForm({ ...form, image_url: e.target.value })}
-            />
-          </label>
+          <ImageUpload
+            label="Project Image"
+            value={form.image_url}
+            onChange={(url) => setForm({ ...form, image_url: url })}
+            folder="projects"
+          />
           <label>
             Sort Order
             <input

@@ -13,6 +13,10 @@
   "license": "MIT",
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
+    "@tiptap/extension-image": "^3.29.0",
+    "@tiptap/extension-link": "^3.29.0",
+    "@tiptap/react": "^3.29.0",
+    "@tiptap/starter-kit": "^3.29.0",
     "bcryptjs": "^3.0.3",
     "jose": "^6.2.4",
     "next": "latest",
