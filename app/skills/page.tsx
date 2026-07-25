@@ -6,11 +6,6 @@ export const metadata: Metadata = {
   description: "My technical skills and proficiency.",
 };
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
 interface Skill {
   id: number;
   name: string;
@@ -26,6 +21,10 @@ export default async function Skills() {
   let skills: Skill[] = [];
 
   try {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
     const { data } = await supabase
       .from("skills")
       .select("*")

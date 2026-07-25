@@ -6,11 +6,6 @@ export const metadata: Metadata = {
   description: "My projects and work.",
 };
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
 interface Project {
   id: number;
   title: string;
@@ -29,6 +24,10 @@ export default async function Projects() {
   let projects: Project[] = [];
 
   try {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
     const { data } = await supabase
       .from("projects")
       .select("*")

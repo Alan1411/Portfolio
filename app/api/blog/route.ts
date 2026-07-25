@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SECRET_KEY!
-);
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SECRET_KEY!
+  );
+}
 
 function slugify(text: string) {
   return text
@@ -16,6 +18,7 @@ function slugify(text: string) {
 
 export async function GET() {
   try {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from("blog_posts")
       .select("id, title, slug, excerpt, created_at, updated_at")
@@ -42,6 +45,7 @@ export async function POST(request: Request) {
     }
 
     const slug = slugify(title);
+    const supabase = getSupabase();
 
     const { data, error } = await supabase
       .from("blog_posts")

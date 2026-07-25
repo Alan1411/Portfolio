@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.SUPABASE_SECRET_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SECRET_KEY!
+  );
+}
 
 const AGENTMAIL_API_KEY = process.env.AGENTMAIL_API_KEY;
 const AGENTMAIL_ADDRESS = "alan1411@agentmail.to";
@@ -19,14 +22,14 @@ export async function POST(request: Request) {
       );
     }
 
-    // Save to Supabase
+    const supabase = getSupabase();
+
     const { error: dbError } = await supabase
       .from("messages")
       .insert({ name, message });
 
     if (dbError) throw dbError;
 
-    // Send email via AgentMail
     if (AGENTMAIL_API_KEY) {
       try {
         await fetch("https://api.agentmail.to/v1/messages/send", {

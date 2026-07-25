@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SECRET_KEY!
-);
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SECRET_KEY!
+  );
+}
 
 export async function GET() {
   try {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from("projects")
       .select("*")
@@ -32,6 +35,7 @@ export async function POST(request: Request) {
       );
     }
 
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from("projects")
       .insert({ title, description, tech_stack, repo_url, demo_url, image_url, featured, sort_order })

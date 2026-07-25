@@ -7,11 +7,6 @@ export const metadata: Metadata = {
   description: "Thoughts, tutorials, and updates.",
 };
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
 interface Post {
   id: number;
   title: string;
@@ -26,6 +21,10 @@ export default async function Blog() {
   let posts: Post[] = [];
 
   try {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
     const { data } = await supabase
       .from("blog_posts")
       .select("id, title, slug, excerpt, created_at")
