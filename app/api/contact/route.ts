@@ -1,28 +1,30 @@
-const express = require("express");
-const supabase = require("../lib/supabase");
+import { NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 
-const router = express.Router();
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.SUPABASE_SECRET_KEY!;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const AGENTMAIL_API_KEY = process.env.AGENTMAIL_API_KEY;
 const AGENTMAIL_ADDRESS = "alan1411@agentmail.to";
 
-// POST /api/contact
-router.post("/", async (req, res) => {
-  const { name, message } = req.body;
-
-  if (!name || !message) {
-    return res.status(400).json({ error: "Name and message are required" });
-  }
-
+export async function POST(request: Request) {
   try {
-    // Save to Supabase (if configured)
-    if (supabase) {
-      const { error: dbError } = await supabase
-        .from("messages")
-        .insert({ name, message });
+    const { name, message } = await request.json();
 
-      if (dbError) throw dbError;
+    if (!name || !message) {
+      return NextResponse.json(
+        { error: "Name and message are required" },
+        { status: 400 }
+      );
     }
+
+    // Save to Supabase
+    const { error: dbError } = await supabase
+      .from("messages")
+      .insert({ name, message });
+
+    if (dbError) throw dbError;
 
     // Send email via AgentMail
     if (AGENTMAIL_API_KEY) {
@@ -48,15 +50,13 @@ router.post("/", async (req, res) => {
             `,
           }),
         });
-      } catch (emailErr) {
+      } catch (emailErr: any) {
         console.error("AgentMail error:", emailErr.message);
       }
     }
 
-    res.json({ success: true, name });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    return NextResponse.json({ success: true, name });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
-});
-
-module.exports = router;
+}

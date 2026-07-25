@@ -11,3 +11,7 @@ Thumbs.db
 .env*
 .vscode/
 SESSION_SUMMARY.txt
+
+# Next.js
+.next/
+out/
