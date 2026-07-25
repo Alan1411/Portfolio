@@ -4,6 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { NavLinks } from "@/components/NavLinks";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
+import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { getCurrentUser } from "@/lib/auth";
 
 export const metadata: Metadata = {
@@ -49,6 +50,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
+        <AnalyticsTracker />
         <AnnouncementBar announcements={announcements} />
         <header className="header">
           <nav className="nav">
