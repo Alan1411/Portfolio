@@ -32,9 +32,9 @@ async function getActiveAnnouncements() {
   }
 }
 
-async function getIsAdmin() {
+async function getUser() {
   const user = await getCurrentUser();
-  return user?.role === "admin";
+  return user;
 }
 
 export default async function RootLayout({
@@ -42,10 +42,11 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [announcements, isAdmin] = await Promise.all([
+  const [announcements, user] = await Promise.all([
     getActiveAnnouncements(),
-    getIsAdmin(),
+    getUser(),
   ]);
+  const isAdmin = user?.role === "admin";
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -57,7 +58,7 @@ export default async function RootLayout({
             <a href="/" className="logo">
               Alan1411
             </a>
-            <NavLinks isAdmin={isAdmin} />
+            <NavLinks isAdmin={isAdmin} user={user} />
             <ThemeToggle />
           </nav>
         </header>
