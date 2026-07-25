@@ -40,7 +40,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { email, subject, message } = await request.json();
+    const { email } = await request.json();
 
     if (!email) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
@@ -54,8 +54,6 @@ export async function POST(request: Request) {
       .insert({
         email: email.toLowerCase(),
         token,
-        subject: subject || null,
-        message: message || null,
         status: "sent",
       })
       .select("*")

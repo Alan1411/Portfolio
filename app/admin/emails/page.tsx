@@ -18,7 +18,7 @@ export default function AdminEmails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ email: "", subject: "", message: "" });
+  const [form, setForm] = useState({ email: "" });
   const [creating, setCreating] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
@@ -57,7 +57,7 @@ export default function AdminEmails() {
       setCopiedId(data.id);
       setTimeout(() => setCopiedId(null), 3000);
 
-      setForm({ email: "", subject: "", message: "" });
+      setForm({ email: "" });
       setShowForm(false);
       load();
     } catch (err: any) {
@@ -72,6 +72,12 @@ export default function AdminEmails() {
     await navigator.clipboard.writeText(url);
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 3000);
+  };
+
+  const deleteEmail = async (id: string) => {
+    if (!confirm("Delete this tracked email?")) return;
+    await fetch(`/api/email/${id}`, { method: "DELETE" });
+    load();
   };
 
   const openedCount = emails.filter((e) => e.status === "opened").length;
@@ -105,24 +111,6 @@ export default function AdminEmails() {
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 placeholder="recipient@example.com"
-              />
-            </label>
-            <label>
-              Subject
-              <input
-                type="text"
-                value={form.subject}
-                onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                placeholder="Optional subject"
-              />
-            </label>
-            <label>
-              Message
-              <textarea
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                placeholder="Message shown when link is opened"
-                rows={3}
               />
             </label>
             <button type="submit" className="btn btn-primary" disabled={creating}>
@@ -164,7 +152,6 @@ export default function AdminEmails() {
           <thead>
             <tr>
               <th>Email</th>
-              <th>Subject</th>
               <th>Status</th>
               <th>Created</th>
               <th>Opened</th>
@@ -175,7 +162,6 @@ export default function AdminEmails() {
             {emails.map((e) => (
               <tr key={e.id}>
                 <td>{e.email}</td>
-                <td>{e.subject || "—"}</td>
                 <td>
                   <span
                     className={`role-badge ${e.status === "opened" ? "admin" : "user"}`}
@@ -195,6 +181,12 @@ export default function AdminEmails() {
                     onClick={() => copyLink(e.token, e.id)}
                   >
                     {copiedId === e.id ? "Copied!" : "Copy Link"}
+                  </button>
+                  <button
+                    className="btn btn-small btn-danger"
+                    onClick={() => deleteEmail(e.id)}
+                  >
+                    Delete
                   </button>
                 </td>
               </tr>
