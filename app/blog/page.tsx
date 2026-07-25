@@ -15,7 +15,7 @@ interface Post {
   created_at: string;
 }
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function Blog() {
   let posts: Post[] = [];
