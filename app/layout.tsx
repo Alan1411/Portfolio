@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { NavLinks } from "@/components/NavLinks";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
-import { createClient as createServerSupabase } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Alan1411 — Portfolio",
@@ -32,24 +32,8 @@ async function getActiveAnnouncements() {
 }
 
 async function getIsAdmin() {
-  try {
-    const supabase = await createServerSupabase();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) return false;
-
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-
-    return profile?.role === "admin";
-  } catch {
-    return false;
-  }
+  const user = await getCurrentUser();
+  return user?.role === "admin";
 }
 
 export default async function RootLayout({

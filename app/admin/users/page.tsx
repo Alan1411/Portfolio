@@ -7,6 +7,7 @@ interface Profile {
   email: string;
   full_name: string | null;
   role: string;
+  email_verified: boolean;
   created_at: string;
 }
 
@@ -70,6 +71,7 @@ export default function AdminUsers() {
               <th>Name</th>
               <th>Email</th>
               <th>Role</th>
+              <th>Verified</th>
               <th>Joined</th>
               <th>Actions</th>
             </tr>
@@ -81,6 +83,11 @@ export default function AdminUsers() {
                 <td>{u.email}</td>
                 <td>
                   <span className={`role-badge ${u.role}`}>{u.role}</span>
+                </td>
+                <td>
+                  <span className={`role-badge ${u.email_verified ? "admin" : "user"}`}>
+                    {u.email_verified ? "Verified" : "Pending"}
+                  </span>
                 </td>
                 <td>{new Date(u.created_at).toLocaleDateString()}</td>
                 <td className="admin-table-actions">
@@ -101,7 +108,7 @@ export default function AdminUsers() {
             ))}
             {users.length === 0 && (
               <tr>
-                <td colSpan={5} className="muted">
+                <td colSpan={6} className="muted">
                   No users yet.
                 </td>
               </tr>

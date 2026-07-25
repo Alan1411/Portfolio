@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { requireAdmin } from "@/lib/supabase/admin-guard";
+import { requireAdmin } from "@/lib/auth";
 
 function getSupabaseAdmin() {
   return createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
@@ -15,8 +15,8 @@ export async function GET() {
   try {
     const supabase = getSupabaseAdmin();
     const { data, error } = await supabase
-      .from("profiles")
-      .select("id, email, full_name, role, created_at")
+      .from("users")
+      .select("id, email, full_name, role, email_verified, created_at")
       .order("created_at", { ascending: false });
 
     if (error) throw error;

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { requireAdmin } from "@/lib/supabase/admin-guard";
+import { requireAdmin } from "@/lib/auth";
 
 export async function GET() {
   const guard = await requireAdmin();

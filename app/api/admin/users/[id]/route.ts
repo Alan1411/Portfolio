@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { requireAdmin } from "@/lib/supabase/admin-guard";
+import { requireAdmin } from "@/lib/auth";
 
 function getSupabaseAdmin() {
   return createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!);
@@ -25,7 +25,7 @@ export async function PATCH(
 
     const supabase = getSupabaseAdmin();
     const { data, error } = await supabase
-      .from("profiles")
+      .from("users")
       .update({ role })
       .eq("id", id)
       .select()
@@ -58,7 +58,7 @@ export async function DELETE(
     }
 
     const supabase = getSupabaseAdmin();
-    const { error } = await supabase.auth.admin.deleteUser(id);
+    const { error } = await supabase.from("users").delete().eq("id", id);
 
     if (error) throw error;
     return NextResponse.json({ deleted: true });

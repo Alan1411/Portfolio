@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/auth";
 import { AdminNav } from "@/components/AdminNav";
-import { logout } from "@/app/auth/actions";
+import { LogoutButton } from "@/components/LogoutButton";
 
 export const metadata: Metadata = {
   title: "Admin Panel — Alan1411",
@@ -13,10 +13,7 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   return (
     <div className="admin-layout">
@@ -30,11 +27,7 @@ export default async function AdminLayout({
           <Link href="/" className="admin-nav-link">
             ← Back to Site
           </Link>
-          <form action={logout}>
-            <button type="submit" className="admin-nav-link" style={{ width: "100%", textAlign: "left", background: "none", border: "none", cursor: "pointer", font: "inherit" }}>
-              Log Out
-            </button>
-          </form>
+          <LogoutButton className="admin-nav-link" />
         </div>
       </aside>
       <div className="admin-main">{children}</div>

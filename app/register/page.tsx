@@ -1,23 +1,47 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { signup } from "@/app/auth/actions";
+import { useRouter } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Register — Alan1411",
-};
+export default function RegisterPage() {
+  const router = useRouter();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-export default async function RegisterPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ error?: string }>;
-}) {
-  const params = await searchParams;
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    const fullName = formData.get("full_name") as string;
+
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, fullName }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error);
+
+      router.push(`/verify-email?email=${encodeURIComponent(email)}`);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section className="auth-page">
-      <form action={signup} className="auth-form">
+      <form onSubmit={handleSubmit} className="auth-form">
         <h1>Create Account</h1>
-        {params.error && <p className="auth-error">{params.error}</p>}
+        {error && <p className="auth-error">{error}</p>}
         <label>
           Full Name
           <input type="text" name="full_name" required placeholder="Your name" />
@@ -28,10 +52,10 @@ export default async function RegisterPage({
         </label>
         <label>
           Password
-          <input type="password" name="password" required minLength={6} placeholder="••••••••" />
+          <input type="password" name="password" required minLength={8} placeholder="••••••••" />
         </label>
-        <button type="submit" className="btn btn-primary">
-          Register
+        <button type="submit" className="btn btn-primary" disabled={loading}>
+          {loading ? "Creating account..." : "Register"}
         </button>
         <p className="auth-switch">
           Already have an account? <Link href="/login">Log in</Link>
