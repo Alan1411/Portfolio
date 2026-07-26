@@ -12,18 +12,23 @@
   "author": "Alan1411",
   "license": "MIT",
   "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
     "@supabase/supabase-js": "^2.45.0",
     "@tiptap/extension-image": "^3.29.0",
     "@tiptap/extension-link": "^3.29.0",
     "@tiptap/react": "^3.29.0",
     "@tiptap/starter-kit": "^3.29.0",
+    "@types/three": "^0.185.1",
     "bcryptjs": "^3.0.3",
+    "framer-motion": "^12.42.2",
     "jose": "^6.2.4",
     "next": "latest",
     "nodemailer": "^9.0.3",
     "react": "latest",
     "react-dom": "latest",
-    "recharts": "^3.10.1"
+    "recharts": "^3.10.1",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
