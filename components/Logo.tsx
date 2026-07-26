@@ -17,7 +17,7 @@ export function Logo() {
     return () => observer.disconnect();
   }, []);
 
-  const src = theme === "dark" ? "/images/Weiß.svg" : "/images/Schwarz.svg";
+  const src = theme === "dark" ? "/images/Weiss.png" : "/images/Schwarz.png";
 
   return (
     <a href="/" className="logo-link">
