@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "Alan1411 — Portfolio",
   description: "A developer portfolio powered by Next.js and Supabase.",
   icons: {
-    icon: "/images/Schwarz512x512.png",
+    icon: "/images/Weiss512x512.png",
   },
 };
 
