@@ -22,7 +22,6 @@ export function Logo() {
   return (
     <a href="/" className="logo-link">
       <img src={src} alt="ChicoCode" className="logo-img" />
-      <span className="logo-text">ChicoCode</span>
     </a>
   );
 }

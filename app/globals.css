@@ -66,18 +66,11 @@ a {
 .logo-link {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
 }
 
 .logo-img {
   height: 90px;
   width: auto;
-}
-
-.logo-text {
-  font-size: 2rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
 }
 
 .nav-links {
@@ -86,13 +79,18 @@ a {
   gap: 1.5rem;
 }
 
+.nav-links a {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
 .nav-links a:hover {
   color: var(--accent);
 }
 
 .nav-links a.active {
   color: var(--accent);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .nav-user {
@@ -105,19 +103,20 @@ a {
 }
 
 .nav-user-name {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
   white-space: nowrap;
 }
 
 .nav-logout-btn {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   color: var(--danger, #ef4444);
   background: none;
   border: 1px solid var(--danger, #ef4444);
   border-radius: 6px;
-  padding: 0.3rem 0.6rem;
+  padding: 0.35rem 0.7rem;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -128,12 +127,12 @@ a {
 }
 
 .nav-login-btn {
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--accent);
   border: 1px solid var(--accent);
   border-radius: 6px;
-  padding: 0.35rem 0.75rem;
+  padding: 0.35rem 0.85rem;
   text-decoration: none;
   transition: all 0.2s;
   margin-left: 0.5rem;
