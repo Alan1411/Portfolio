@@ -1,7 +1,8 @@
 "use client";
 
+import "./creative3d.css";
 import dynamic from "next/dynamic";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { FloatingNav } from "@/components/creative3d/FloatingNav";
 import { ScrollRevealText } from "@/components/creative3d/ScrollRevealText";
 import { ProjectsGrid } from "@/components/creative3d/ProjectsGrid";
@@ -14,6 +15,12 @@ const HeroScene = dynamic(
 );
 
 export default function Creative3dPage() {
+  /* Hide root header/footer/announcementbar on this page */
+  useEffect(() => {
+    document.body.classList.add("c3d-active");
+    return () => document.body.classList.remove("c3d-active");
+  }, []);
+
   return (
     <div className="c3d-root">
       <FloatingNav />
