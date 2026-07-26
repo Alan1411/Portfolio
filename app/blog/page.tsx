@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getCachedBlogPosts } from "@/lib/cache";
 
 export const metadata: Metadata = {
-  title: "Blog — Alan1411",
+  title: "Blog — ChicoCode",
   description: "Thoughts, tutorials, and updates.",
 };
 

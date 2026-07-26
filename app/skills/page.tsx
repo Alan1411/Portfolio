@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getCachedSkills } from "@/lib/cache";
 
 export const metadata: Metadata = {
-  title: "Skills — Alan1411",
+  title: "Skills — ChicoCode",
   description: "My technical skills and proficiency.",
 };
 

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getCachedProjects } from "@/lib/cache";
 
 export const metadata: Metadata = {
-  title: "Projects — Alan1411",
+  title: "Projects — ChicoCode",
   description: "My projects and work.",
 };
 

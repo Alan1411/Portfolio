@@ -9,7 +9,7 @@ import { Logo } from "@/components/Logo";
 import { getCurrentUser } from "@/lib/auth";
 
 export const metadata: Metadata = {
-  title: "Alan1411 — Portfolio",
+  title: "ChicoCode",
   description: "A developer portfolio powered by Next.js and Supabase.",
   icons: {
     icon: "/images/Weiss512x512.png",
@@ -67,7 +67,7 @@ export default async function RootLayout({
         <main>{children}</main>
         <footer className="footer">
           <p>
-            Built by <strong>Alan1411</strong> · {new Date().getFullYear()}
+            Built by <strong>ChicoCode</strong> · {new Date().getFullYear()}
           </p>
         </footer>
       </body>

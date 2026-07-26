@@ -5,7 +5,7 @@ import { AdminNav } from "@/components/AdminNav";
 import { LogoutButton } from "@/components/LogoutButton";
 
 export const metadata: Metadata = {
-  title: "Admin Panel — Alan1411",
+  title: "Admin Panel — ChicoCode",
 };
 
 export default async function AdminLayout({

@@ -26,7 +26,7 @@ export async function generateMetadata({
     if (!data) return { title: "Post Not Found" };
 
     return {
-      title: `${data.title} — Alan1411`,
+      title: `${data.title} — ChicoCode`,
       description: data.excerpt || undefined,
     };
   } catch {
