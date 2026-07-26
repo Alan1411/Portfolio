@@ -947,6 +947,24 @@ main {
   }
 }
 
+/* --- Creative 3D: hide root chrome --- */
+body.c3d-active > header,
+body.c3d-active > .header,
+body.c3d-active > footer,
+body.c3d-active > .footer,
+body.c3d-active > div:first-child:not(.c3d-root) {
+  display: none !important;
+}
+body.c3d-active > main {
+  padding: 0;
+  margin: 0;
+  max-width: none;
+}
+body.c3d-active {
+  background: #06060e;
+  overflow-x: hidden;
+}
+
 /* ---- Finance Dashboard ---- */
 
 .finance-dashboard {
