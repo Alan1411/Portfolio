@@ -5,11 +5,15 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { NavLinks } from "@/components/NavLinks";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
+import { Logo } from "@/components/Logo";
 import { getCurrentUser } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Alan1411 — Portfolio",
   description: "A developer portfolio powered by Next.js and Supabase.",
+  icons: {
+    icon: "/images/Schwarz512x512.svg",
+  },
 };
 
 export const dynamic = "force-dynamic";
@@ -55,9 +59,7 @@ export default async function RootLayout({
         <AnnouncementBar announcements={announcements} />
         <header className="header">
           <nav className="nav">
-            <a href="/" className="logo">
-              Alan1411
-            </a>
+            <Logo />
             <NavLinks isAdmin={isAdmin} user={user} />
             <ThemeToggle />
           </nav>

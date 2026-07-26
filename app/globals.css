@@ -63,6 +63,16 @@ a {
   font-size: 1.125rem;
 }
 
+.logo-link {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 40px;
+  width: auto;
+}
+
 .nav-links {
   list-style: none;
   display: flex;
