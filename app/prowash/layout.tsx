@@ -134,7 +134,7 @@ export default function ProwashLayout({
       </header>
 
       {/* PAGE CONTENT */}
-      <main className="flex-1" style={{ maxWidth: "none", marginLeft: 0, marginRight: 0, padding: "5rem 0 0" }}>{children}</main>
+      <main className="flex-1" style={{ maxWidth: "none", margin: "0", padding: "5rem 0 0" }}>{children}</main>
 
       {/* FOOTER */}
       <footer
