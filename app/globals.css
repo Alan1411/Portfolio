@@ -1179,3 +1179,16 @@ body.c3d-active {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Prowash: hide root chrome ── */
+body:has(.prowash-root) > .header,
+body:has(.prowash-root) > .announcement-stack,
+body:has(.prowash-root) > .footer {
+  display: none !important;
+}
+
+body:has(.prowash-root) > main {
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
