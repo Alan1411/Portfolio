@@ -9,9 +9,9 @@ export default function ProwashLogo({
   size?: "sm" | "md" | "lg";
 }) {
   const dims = {
-    sm: { h: 32, w: 120 },
-    md: { h: 44, w: 160 },
-    lg: { h: 60, w: 220 },
+    sm: { h: 24, w: 90 },
+    md: { h: 32, w: 120 },
+    lg: { h: 44, w: 160 },
   }[size];
 
   return (
