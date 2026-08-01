@@ -40,7 +40,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { email } = await request.json();
+    const { email, redirect_url } = await request.json();
 
     if (!email) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
@@ -55,6 +55,7 @@ export async function POST(request: Request) {
         email: email.toLowerCase(),
         token,
         status: "sent",
+        redirect_url: redirect_url || null,
       })
       .select("*")
       .single();

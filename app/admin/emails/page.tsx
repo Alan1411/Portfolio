@@ -18,7 +18,7 @@ export default function AdminEmails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ email: "" });
+  const [form, setForm] = useState({ email: "", redirect_url: "" });
   const [creating, setCreating] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
@@ -57,7 +57,7 @@ export default function AdminEmails() {
       setCopiedId(data.id);
       setTimeout(() => setCopiedId(null), 3000);
 
-      setForm({ email: "" });
+      setForm({ email: "", redirect_url: "" });
       setShowForm(false);
       load();
     } catch (err: any) {
@@ -111,6 +111,15 @@ export default function AdminEmails() {
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 placeholder="recipient@example.com"
+              />
+            </label>
+            <label>
+              Redirect URL (optional)
+              <input
+                type="url"
+                value={form.redirect_url}
+                onChange={(e) => setForm({ ...form, redirect_url: e.target.value })}
+                placeholder="https://example.com/page"
               />
             </label>
             <button type="submit" className="btn btn-primary" disabled={creating}>

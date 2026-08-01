@@ -16,7 +16,7 @@ export default async function EmailTrackPage({
 
   const { data: link } = await supabase
     .from("email_links")
-    .select("id, status")
+    .select("id, status, redirect_url")
     .eq("token", token)
     .single();
 
@@ -27,5 +27,5 @@ export default async function EmailTrackPage({
       .eq("token", token);
   }
 
-  redirect("/");
+  redirect(link?.redirect_url || "/");
 }
