@@ -4,6 +4,24 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Force override portfolio main constraints */
+.prowash-root main {
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.prowash-root footer {
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
 * {
   font-family: 'Inter', sans-serif;
 }

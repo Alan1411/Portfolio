@@ -37,7 +37,7 @@ export default function ProwashLayout({
     path === "/prowash" ? pathname === "/prowash" : pathname.startsWith(path);
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "#080a0c" }}>
+    <div className="prowash-root min-h-screen flex flex-col" style={{ background: "#080a0c" }}>
       {/* HEADER */}
       <header
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
@@ -134,7 +134,7 @@ export default function ProwashLayout({
       </header>
 
       {/* PAGE CONTENT */}
-      <main className="flex-1" style={{ maxWidth: "none", margin: "0", padding: "5rem 0 0" }}>{children}</main>
+      <main className="flex-1 pt-16 md:pt-20">{children}</main>
 
       {/* FOOTER */}
       <footer
