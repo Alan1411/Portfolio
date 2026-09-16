@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { ToolMeta } from "@/lib/tools/types";
 import { CATEGORY_LABELS, CATEGORY_ORDER } from "@/lib/tools/types";
+import { Reveal } from "@/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 
 export function ToolSearch({ tools }: { tools: ToolMeta[] }) {
   const [query, setQuery] = useState("");
@@ -42,17 +44,19 @@ export function ToolSearch({ tools }: { tools: ToolMeta[] }) {
       {filtered.length === 0 && <p className="muted">Keine Tools gefunden.</p>}
 
       {CATEGORY_ORDER.filter((c) => byCategory.has(c)).map((category) => (
-        <section key={category} className="tool-category-section">
+        <Reveal key={category} as="section" className="tool-category-section">
           <h2>{CATEGORY_LABELS[category]}</h2>
-          <div className="cards tool-grid">
+          <Stagger className="cards tool-grid">
             {byCategory.get(category)!.map((tool) => (
-              <Link key={tool.slug} href={`/tools/${tool.slug}`} className="card tool-card">
-                <h3>{tool.name}</h3>
-                <p>{tool.description}</p>
+              <Link key={tool.slug} href={`/tools/${tool.slug}`}>
+                <StaggerItem className="card tool-card">
+                  <h3>{tool.name}</h3>
+                  <p>{tool.description}</p>
+                </StaggerItem>
               </Link>
             ))}
-          </div>
-        </section>
+          </Stagger>
+        </Reveal>
       ))}
     </>
   );

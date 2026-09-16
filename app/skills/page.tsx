@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { getCachedSkills } from "@/lib/cache";
+import { Hero } from "@/components/Hero";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
+import { SkillBar } from "@/components/SkillBar";
 
 export const metadata: Metadata = {
   title: "Skills — ChicoCode",
@@ -34,36 +37,31 @@ export default async function Skills() {
 
   return (
     <>
-      <section className="hero">
-        <p className="badge">Tech</p>
-        <h1>Skills</h1>
-        <p className="subtitle">Technologies and tools I work with.</p>
-      </section>
+      <Hero badge="Tech" title="Skills" subtitle="Technologies and tools I work with." />
 
       <section className="skills-section">
-        <div className="skills-grid">
-          {Object.keys(grouped).length === 0 ? (
-            <p className="muted">No skills listed yet.</p>
-          ) : (
-            Object.entries(grouped).map(([cat, items]) => (
-              <div key={cat} className="skill-group">
+        {Object.keys(grouped).length === 0 ? (
+          <p className="muted">No skills listed yet.</p>
+        ) : (
+          <Stagger className="skills-grid">
+            {Object.entries(grouped).map(([cat, items]) => (
+              <StaggerItem key={cat} className="skill-group">
                 <h3 className="skill-category">{cat}</h3>
                 <div className="skill-items">
                   {items.map((s) => (
                     <div key={s.id} className="skill-pill">
-                      {s.icon && <span>{s.icon}</span>}
-                      <span>{s.name}</span>
-                      <span className="skill-level">
-                        {"●".repeat(s.proficiency)}
-                        {"○".repeat(5 - s.proficiency)}
+                      <span className="skill-pill-name">
+                        {s.icon && <span>{s.icon}</span>}
+                        <span>{s.name}</span>
                       </span>
+                      <SkillBar proficiency={s.proficiency} />
                     </div>
                   ))}
                 </div>
-              </div>
-            ))
-          )}
-        </div>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        )}
       </section>
     </>
   );

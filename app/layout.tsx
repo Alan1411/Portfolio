@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { createClient } from "@supabase/supabase-js";
+import { GithubIcon } from "@/components/icons/GithubIcon";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { NavLinks } from "@/components/NavLinks";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { Logo } from "@/components/Logo";
+import { SiteHeader } from "@/components/SiteHeader";
+import { ScrollProgressBar } from "@/components/ScrollProgressBar";
 import { getCurrentUser } from "@/lib/auth";
 
 export const metadata: Metadata = {
@@ -55,20 +58,32 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
+        <ScrollProgressBar />
         <AnalyticsTracker />
         <AnnouncementBar announcements={announcements} />
-        <header className="header">
+        <SiteHeader>
           <nav className="nav">
             <Logo />
             <NavLinks isAdmin={isAdmin} user={user} />
             <ThemeToggle />
           </nav>
-        </header>
+        </SiteHeader>
         <main>{children}</main>
         <footer className="footer">
-          <p>
-            Built by <strong>ChicoCode</strong> · {new Date().getFullYear()}
-          </p>
+          <div className="footer-inner">
+            <p>
+              Built by <strong>ChicoCode</strong> · {new Date().getFullYear()}
+            </p>
+            <a
+              href="https://github.com/Alan1411"
+              target="_blank"
+              rel="noopener"
+              className="footer-social"
+              aria-label="GitHub"
+            >
+              <GithubIcon size={18} />
+            </a>
+          </div>
         </footer>
       </body>
     </html>

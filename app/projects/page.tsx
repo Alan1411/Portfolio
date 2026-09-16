@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { getCachedProjects } from "@/lib/cache";
+import { Hero } from "@/components/Hero";
+import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 
 export const metadata: Metadata = {
   title: "Projects — ChicoCode",
@@ -31,19 +33,15 @@ export default async function Projects() {
 
   return (
     <>
-      <section className="hero">
-        <p className="badge">Work</p>
-        <h1>Projects</h1>
-        <p className="subtitle">Things I&apos;ve built and shipped.</p>
-      </section>
+      <Hero badge="Work" title="Projects" subtitle={<>Things I&apos;ve built and shipped.</>} />
 
       <section className="projects-section">
-        <div className="cards">
-          {projects.length === 0 ? (
-            <p className="muted">No projects yet.</p>
-          ) : (
-            projects.map((p) => (
-              <article key={p.id} className="card">
+        {projects.length === 0 ? (
+          <p className="muted">No projects yet.</p>
+        ) : (
+          <Stagger className="cards">
+            {projects.map((p) => (
+              <StaggerItem key={p.id} className="card">
                 <span className="card-icon">
                   {p.image_url ? (
                     <img
@@ -88,10 +86,10 @@ export default async function Projects() {
                     </a>
                   )}
                 </div>
-              </article>
-            ))
-          )}
-        </div>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        )}
       </section>
     </>
   );

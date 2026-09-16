@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { Hero } from "@/components/Hero";
+import { Reveal } from "@/components/motion/Reveal";
 
 export default function Contact() {
   const [status, setStatus] = useState("");
@@ -38,13 +40,9 @@ export default function Contact() {
 
   return (
     <>
-      <section className="hero">
-        <p className="badge">Reach Out</p>
-        <h1>Contact</h1>
-        <p className="subtitle">Have a question or want to work together?</p>
-      </section>
+      <Hero badge="Reach Out" title="Contact" subtitle="Have a question or want to work together?" />
 
-      <section className="contact">
+      <Reveal className="contact" delay={0.1}>
         <form onSubmit={handleSubmit} className="contact-form">
           <label>
             Name
@@ -64,7 +62,7 @@ export default function Contact() {
           </button>
         </form>
         {status && <p className="form-status">{status}</p>}
-      </section>
+      </Reveal>
     </>
   );
 }
