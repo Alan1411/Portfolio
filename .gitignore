@@ -15,3 +15,4 @@ SESSION_SUMMARY.txt
 # Next.js
 .next/
 out/
+tsconfig.tsbuildinfo
