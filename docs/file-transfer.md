@@ -28,7 +28,19 @@ Metadatenzeile (`file_transfers`, Migration `013_file_transfer.sql`).
 | `TRANSFER_STORAGE_DIR` | ja (praktisch) | Verzeichnis für die Dateien, z.B. `/var/lib/chicoweb/transfers`. Ohne die Variable landet alles in `<projekt>/.data/transfers` — das überlebt kein Deploy. |
 | `CRON_SECRET` | ja | Schützt `/api/transfer/cleanup`. Ohne die Variable antwortet der Endpunkt mit 503. |
 
-Verzeichnis anlegen (dem Nutzer gehörend, unter dem die App läuft):
+Verzeichnis, Secret und Cleanup-Cron richtet das Setup-Skript ein:
+
+```bash
+sudo bash scripts/setup-file-transfer.sh
+```
+
+Es legt `/var/lib/chicoweb/transfers` an, erzeugt ein `CRON_SECRET` in
+`/etc/chicoweb-transfer.secret`, schreibt `/etc/cron.d/chicoweb-transfer-cleanup`
+und gibt am Ende aus, was noch in die `.env` und den nginx-Block gehört.
+Läuft die App unter einem anderen Benutzer oder soll das Verzeichnis woanders
+hin: `sudo APP_USER=... TRANSFER_STORAGE_DIR=... bash scripts/setup-file-transfer.sh`.
+
+Von Hand geht es genauso:
 
 ```bash
 sudo mkdir -p /var/lib/chicoweb/transfers
