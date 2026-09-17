@@ -125,7 +125,7 @@ a {
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 1.5rem;
+  gap: 1.15rem;
 }
 
 .nav-link-item {
@@ -255,6 +255,7 @@ a {
   text-decoration: none;
   transition: all 0.2s;
   margin-left: 0.5rem;
+  white-space: nowrap;
 }
 
 .nav-login-btn:hover {
@@ -1186,7 +1187,9 @@ main {
   }
 }
 
-@media (max-width: 600px) {
+/* Mit dem Transfer-Eintrag passt die Navigation nicht mehr bis 600px in eine
+   Zeile — das Burger-Menü übernimmt deshalb schon ab 940px. */
+@media (max-width: 940px) {
   .nav {
     flex-wrap: wrap;
   }
@@ -1883,4 +1886,272 @@ body:has(.prowash-root) > main {
   max-width: none !important;
   margin: 0 !important;
   padding: 0 !important;
+}
+
+/* ---------- File Transfer ---------- */
+
+.transfer-body {
+  max-width: 720px;
+  margin: 0 auto 3rem;
+}
+
+.transfer-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+}
+
+.transfer-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 2.5rem 1.25rem;
+  border: 2px dashed var(--border);
+  border-radius: 0.9rem;
+  background: var(--bg);
+  color: var(--muted);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+
+.transfer-dropzone:hover,
+.transfer-dropzone:focus-visible,
+.transfer-dropzone.dragging {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+  outline: none;
+}
+
+.transfer-dropzone.dragging {
+  transform: scale(1.01);
+}
+
+.transfer-dropzone-title {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.transfer-dropzone-hint {
+  font-size: 0.85rem;
+}
+
+.transfer-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.transfer-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.transfer-field select {
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+}
+
+.transfer-field select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.transfer-list {
+  list-style: none;
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.transfer-item {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: var(--bg);
+}
+
+.transfer-item-done {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+}
+
+.transfer-item-error {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-top: 0.4rem;
+}
+
+.transfer-item-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.transfer-item-name {
+  flex: 1;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transfer-item-size {
+  font-size: 0.8rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.transfer-item-remove {
+  display: inline-flex;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.2rem;
+  border-radius: 0.4rem;
+  transition: color 0.2s, background 0.2s;
+}
+
+.transfer-item-remove:hover {
+  color: #ef4444;
+  background: color-mix(in srgb, #ef4444 12%, transparent);
+}
+
+.transfer-progress {
+  margin-top: 0.7rem;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.transfer-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.25s ease;
+}
+
+.transfer-item-meta {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.transfer-result {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+  color: var(--muted);
+}
+
+.transfer-link {
+  flex: 1;
+  min-width: 180px;
+  color: var(--accent);
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+.transfer-link:hover {
+  text-decoration: underline;
+}
+
+.transfer-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.transfer-facts {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.transfer-facts li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.transfer-note {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.transfer-inline-link {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.transfer-inline-link:hover {
+  text-decoration: underline;
+}
+
+.transfer-download {
+  display: flex;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
+.transfer-download-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+  padding: 2.5rem 1.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.transfer-download-icon {
+  color: var(--accent);
+}
+
+.transfer-download-name {
+  font-size: 1.25rem;
+  word-break: break-all;
+}
+
+.transfer-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.transfer-download-meta {
+  list-style: none;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 0.25rem;
 }

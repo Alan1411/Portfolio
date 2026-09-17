@@ -16,3 +16,4 @@ SESSION_SUMMARY.txt
 .next/
 out/
 tsconfig.tsbuildinfo
+.data/
